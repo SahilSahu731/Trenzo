@@ -42,9 +42,10 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {
-      type: String,
+     category: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: 'Category', // This creates the relationship
     },
     description: {
       type: String,

@@ -19,6 +19,9 @@ import AdminProductListPage from "./pages/admin/AdminProductListPage";
 import Home from "./pages/Home";
 import Store from "./pages/Store";
 import Explore from "./pages/Explore";
+import AdminCategoryListPage from "./components/admin/AdminCategoryListPage";
+import Categories from "./pages/Categories";
+import CategoryProductsPage from "./pages/CategoryProductsPage";
 
 function App() {
   const theme = useSelector((state) => state.theme.mode);
@@ -50,6 +53,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/store" element={<Store />} />
           <Route path="/explore" element={<Explore/>} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/category/:categoryName" element={<CategoryProductsPage />} />
           <Route path="/deals" element={<div>Deals Page</div>} />
           <Route
             path="/store/accessories"
@@ -80,6 +85,7 @@ function App() {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboardPage />} />
             <Route path="products" element={<AdminProductListPage />} />
+            <Route path="categories" element={<AdminCategoryListPage />} />
             {/* Add other admin routes here */}
             {/* <Route path="orders" element={<AdminOrderListPage />} /> */}
             {/* <Route path="users" element={<AdminUserListPage />} /> */}

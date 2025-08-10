@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { X, UploadCloud, Loader2 } from 'lucide-react';
@@ -8,21 +8,43 @@ import {
   productRequestFail,
   resetProductState
 } from '../../store/slices/productSlice';
-import { PRODUCT_API_URL } from '../../utils/constant';
-
-const categories = ['Apparel', 'Footwear', 'Accessories', 'Electronics', 'Home Goods', 'Beauty'];
+import {
+  getCategoriesSuccess,
+  categoryRequestStart,
+  categoryRequestFail
+} from '../../store/slices/categorySlice';
+import { PRODUCT_API_URL, CATEGORY_API_URL } from '../../utils/constant';
 
 const AddProductModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.products);
+  const { loading: productLoading, error: productError } = useSelector((state) => state.products);
+  const { categories, loading: categoriesLoading } = useSelector((state) => state.categories);
 
-  // State for text inputs
   const [productData, setProductData] = useState({
-    name: '', price: '', brand: '', category: '', countInStock: '', description: ''
+    name: '',
+    price: '',
+    brand: '',
+    category: '',
+    countInStock: '',
+    description: ''
   });
-  // State specifically for the image file and its preview
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      dispatch(categoryRequestStart());
+      try {
+        const { data } = await axios.get(CATEGORY_API_URL, { withCredentials: true });
+        dispatch(getCategoriesSuccess(data));
+      } catch (err) {
+        dispatch(categoryRequestFail(err.response?.data?.message || 'Failed to fetch categories.'));
+      }
+    };
+    if (isOpen && categories.length === 0) {
+      fetchCategories();
+    }
+  }, [isOpen, categories.length, dispatch]);
 
   const handleChange = (e) => {
     setProductData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -31,17 +53,16 @@ const AddProductModal = ({ isOpen, onClose }) => {
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setImageFile(file); // Store the file object
-      setImagePreview(URL.createObjectURL(file)); // Create a temporary URL for preview
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   const handleClose = () => {
-    // Reset all local state when the modal is closed
     setProductData({ name: '', price: '', brand: '', category: '', countInStock: '', description: '' });
     setImageFile(null);
     setImagePreview(null);
-    dispatch(resetProductState()); // Reset any errors in Redux state
+    dispatch(resetProductState());
     onClose();
   };
 
@@ -49,15 +70,10 @@ const AddProductModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     dispatch(productRequestStart());
 
-    // 1. Create a FormData object to send multipart data (text + file)
     const formData = new FormData();
-    
-    // 2. Append all the text fields from our state
     for (const key in productData) {
       formData.append(key, productData[key]);
     }
-
-    // 3. Append the image file
     if (imageFile) {
       formData.append('image', imageFile);
     } else {
@@ -66,13 +82,8 @@ const AddProductModal = ({ isOpen, onClose }) => {
     }
 
     try {
-      // 4. Configure Axios for FormData upload
       const config = {
-        headers: {
-          // IMPORTANT: Do NOT set 'Content-Type'.
-          // The browser will automatically set it to 'multipart/form-data' 
-          // with the correct boundary when it sees a FormData object.
-        },
+        headers: {}, // Do NOT set 'Content-Type' for multipart/form-data
         withCredentials: true,
       };
       
@@ -106,14 +117,23 @@ const AddProductModal = ({ isOpen, onClose }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <input name="price" type="number" value={productData.price} onChange={handleChange} placeholder="Price" className="input-style" required />
               <input name="countInStock" type="number" value={productData.countInStock} onChange={handleChange} placeholder="Count in Stock" className="input-style" required />
-              <select name="category" value={productData.category} onChange={handleChange} className="input-style" required>
-                <option value="" disabled>Select a category</option>
-                {categories.map(cat => (<option key={cat} value={cat}>{cat}</option>))}
+              <select
+                name="category"
+                value={productData.category}
+                onChange={handleChange}
+                className="input-style"
+                required
+                disabled={categoriesLoading}
+              >
+                <option value="" disabled>
+                  {categoriesLoading ? 'Loading...' : 'Select a category'}
+                </option>
+                {categories.map(cat => (
+                  <option key={cat._id} value={cat._id}>{cat.name}</option>
+                ))}
               </select>
             </div>
             <textarea name="description" value={productData.description} onChange={handleChange} placeholder="Product Description" rows="4" className="input-style"></textarea>
-            
-            {/* --- File Upload UI --- */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Product Image</label>
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md">
@@ -134,14 +154,13 @@ const AddProductModal = ({ isOpen, onClose }) => {
                 </div>
               </div>
             </div>
-
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            {productError && <p className="text-red-500 text-sm text-center">{productError}</p>}
           </div>
           <div className="flex items-center justify-end p-4 gap-3 border-t border-gray-200 dark:border-gray-700">
-            <button type="button" onClick={handleClose} className="px-5 py-2 text-sm font-medium rounded-md border hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">Cancel</button>
-            <button type="submit" disabled={loading} className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 disabled:opacity-75 flex items-center">
-              {loading && <Loader2 className="animate-spin mr-2" size={16} />}
-              {loading ? 'Saving...' : 'Save Product'}
+            <button type="button" onClick={handleClose} className="btn-secondary">Cancel</button>
+            <button type="submit" disabled={productLoading} className="btn-primary flex items-center">
+              {productLoading && <Loader2 className="animate-spin mr-2" size={16} />}
+              {productLoading ? 'Saving...' : 'Save Product'}
             </button>
           </div>
         </form>

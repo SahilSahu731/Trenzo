@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, deleteProduct, getProductById, getProducts, updateProduct } from '../controllers/product.controller.js';
+import { createProduct, deleteProduct, getProductById, getProducts, getProductsByCategory, updateProduct } from '../controllers/product.controller.js';
 import { protect } from '../middlewares/auth.middleware.js';
 import { admin } from '../middlewares/admin.middleware.js';
 import upload from '../middlewares/upload.middleware.js';
@@ -15,11 +15,12 @@ router.route('/:id').get(getProductById);
 
 router.route('/').post(protect, admin, upload.single('image'), createProduct);
 
-
 // Update and Delete a product
 router
   .route('/:id')
   .put(protect, admin, updateProduct)
   .delete(protect, admin, deleteProduct);
+
+router.route('/category/:categoryName').get(getProductsByCategory);
 
 export default router;

@@ -90,7 +90,7 @@ const FeaturedProducts = () => {
         {/* --- VIEW ALL BUTTON --- */}
         <div className="mt-16 text-center">
             <Link 
-              to="/store"
+              to="/explore"
               className="inline-flex items-center gap-2 px-8 py-3 text-sm font-semibold text-white bg-gray-800 dark:bg-gray-700 rounded-full shadow-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition-all transform hover:scale-105"
             >
               View All Products

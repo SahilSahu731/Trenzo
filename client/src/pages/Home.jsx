@@ -7,6 +7,8 @@ import ValuePropositions from '../components/home/ValuePropositions';
 import Testimonials from '../components/home/Testimonials';
 import WhyChooseUs from '../components/home/WhyChooseUs';
 import InstagramFeed from '../components/home/InstagramFeed';
+import FeaturedBrands from '../components/store/FeaturedBrands';
+import BlogPreview from '../components/home/BlogPreview';
 
 const Home = () => {
   return (
@@ -17,6 +19,7 @@ const Home = () => {
       <WhyChooseUs />
       <Testimonials />     
       <InstagramFeed />
+      <BlogPreview />
       <ValuePropositions /> 
       <NewsletterSignup />
     </div>

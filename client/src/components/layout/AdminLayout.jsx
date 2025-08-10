@@ -4,12 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlices';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, BarChart, 
-  ChevronLeft, ChevronRight, LogOut, Menu, X 
+  ChevronLeft, ChevronRight, LogOut, Menu, X, 
+  Tag
 } from 'lucide-react';
 
 const menuItems = [
   { name: 'Dashboard', to: '/admin/dashboard', icon: LayoutDashboard },
   { name: 'Products', to: '/admin/products', icon: Package },
+  { name: 'Categories', to: '/admin/categories', icon: Tag }, 
   { name: 'Orders', to: '/admin/orders', icon: ShoppingCart },
   { name: 'Users', to: '/admin/users', icon: Users },
   { name: 'Analytics', to: '/admin/analytics', icon: BarChart },

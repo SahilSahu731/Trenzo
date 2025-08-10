@@ -37,7 +37,7 @@ const slidesData = [
 
 const HeroSection = () => {
   return (
-    <section className="relative h-screen w-full bg-black">
+    <section className="relative -top-24 h-screen w-full bg-black">
       <Swiper
         // 1. REMOVED 'Lazy' from the modules array
         modules={[Autoplay, Pagination, Navigation, Parallax]}

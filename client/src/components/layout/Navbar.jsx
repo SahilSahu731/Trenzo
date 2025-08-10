@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../store/slices/authSlices";
+import { logout } from "../../store/slices/authSlices"; // Ensure path is correct
 import {
   User,
   ShoppingCart,
@@ -15,7 +15,7 @@ import {
   Star,
   Home,
 } from "lucide-react";
-import ThemeToggle from "../ThemeToggle";
+import ThemeToggle from "../ThemeToggle"; // Ensure path is correct
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
@@ -40,11 +40,12 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Effect to handle closing user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // FIX: Corrected the typo from 'userMenurRef' to 'userMenuRef'
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target)
+      ) {
         setIsUserMenuOpen(false);
       }
     };
@@ -52,7 +53,6 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Effect to disable body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
   }, [isMobileMenuOpen]);
@@ -66,19 +66,18 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed lg:left-80 sm:left-2 top-5 z-50 w-full bg-white/70 rounded-full dark:bg-gray-950/70 backdrop-blur-xl transition-colors max-w-7xl mx-auto duration-300">
-        <div className="p-0 m-0">
-          <header className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-full shadow-lg border border-gray-200 dark:border-gray-800">
-            <nav className="max-w-6xl mx-auto px-4 sm:px-6">
-              <div className="flex items-center justify-between h-16">
-                <div className="flex items-center gap-6">
-                  <Link
-                    to="/"
-                    className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight"
-                  >
-                    E-Shop
-                  </Link>
-                </div>
+      <div className="sticky top-0 z-50 w-full py-4 flex justify-center">
+        <header className="w-full max-w-6xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-full shadow-lg border border-gray-200 dark:border-gray-800">
+          <nav className="px-4 sm:px-6">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center gap-6">
+                <Link
+                  to="/"
+                  className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight"
+                >
+                  E-Shop
+                </Link>
+              </div>
                 <div className="hidden md:flex items-center gap-1.5">
                   {navLinks.map((link) => (
                     <NavLink
@@ -92,100 +91,98 @@ const Navbar = () => {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="hidden sm:flex items-center gap-2">
-                    <button className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                      <Search size={20} strokeWidth={BOLD_ICON_STROKE} />
-                    </button>
-                    <ThemeToggle />
-                  </div>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="hidden sm:flex items-center gap-2">
+                  <button className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <Search size={20} strokeWidth={BOLD_ICON_STROKE} />
+                  </button>
+                  <ThemeToggle />
+                </div>
 
-                  {isAuthenticated ? (
-                    <div ref={userMenuRef} className="relative">
-                      <button
-                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                        className="flex text-sm bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none ring-2 ring-offset-2 ring-offset-gray-100 dark:ring-offset-gray-900 ring-transparent focus:ring-blue-500 transition-shadow"
-                      >
-                        <img
-                          className="h-9 w-9 rounded-full"
-                          src={`https://api.dicebear.com/8.x/initials/svg?seed=${userInfo?.name}`}
-                          alt="User avatar"
-                        />
-                      </button>
-                      <div
-                        className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 ease-out ${
-                          isUserMenuOpen
-                            ? "opacity-100 scale-100"
-                            : "opacity-0 scale-95 pointer-events-none"
-                        }`}
-                      >
-                        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                          <p className="text-sm text-gray-900 dark:text-white">
-                            Welcome back,
-                          </p>
-                          <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                            {userInfo?.name}
-                          </p>
-                        </div>
-                        <Link
-                          to="/dashboard"
-                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        >
-                          <LayoutDashboard
-                            size={18}
-                            strokeWidth={BOLD_ICON_STROKE}
-                          />{" "}
-                          Dashboard
-                        </Link>
-                        <Link
-                          to="/profile"
-                          className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        >
-                          <Settings size={18} strokeWidth={BOLD_ICON_STROKE} />{" "}
-                          Profile
-                        </Link>
-                        <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
-                        <button
-                          onClick={handleLogout}
-                          className="w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        >
-                          <LogOut size={18} strokeWidth={BOLD_ICON_STROKE} />{" "}
-                          Logout
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="hidden md:flex items-center gap-2">
-                      <Link
-                        to="/login"
-                        className="px-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
-                      >
-                        Login
-                      </Link>
-                      <Link
-                        to="/signup"
-                        className="px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-md shadow-md hover:shadow-lg hover:scale-105 transition-all"
-                      >
-                        Sign Up
-                      </Link>
-                    </div>
-                  )}
-                  <div className="flex items-center md:hidden">
+                {isAuthenticated ? (
+                  <div ref={userMenuRef} className="relative">
                     <button
-                      onClick={() => setIsMobileMenuOpen(true)}
-                      className="p-2 -mr-2 rounded-md text-gray-500 dark:text-gray-400"
+                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                      className="flex text-sm bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none ring-2 ring-offset-2 ring-offset-gray-100 dark:ring-offset-gray-900 ring-transparent focus:ring-blue-500 transition-shadow"
                     >
-                      <MenuIcon size={28} strokeWidth={BOLD_ICON_STROKE} />
+                      <img
+                        className="h-9 w-9 rounded-full"
+                        src={`https://api.dicebear.com/8.x/initials/svg?seed=${userInfo?.name}`}
+                        alt="User avatar"
+                      />
                     </button>
+                    <div
+                      className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 ease-out ${
+                        isUserMenuOpen
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-95 pointer-events-none"
+                      }`}
+                    >
+                      <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                        <p className="text-sm text-gray-900 dark:text-white">
+                          Welcome back,
+                        </p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                          {userInfo?.name}
+                        </p>
+                      </div>
+                      <Link
+                        to="/profile"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        <LayoutDashboard
+                          size={18}
+                          strokeWidth={BOLD_ICON_STROKE}
+                        />{" "}
+                        Profile
+                      </Link>
+                      <Link
+                        to="/profile/settings"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        <Settings size={18} strokeWidth={BOLD_ICON_STROKE} />{" "}
+                        Settings
+                      </Link>
+                      <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        <LogOut size={18} strokeWidth={BOLD_ICON_STROKE} />{" "}
+                        Logout
+                      </button>
+                    </div>
                   </div>
+                ) : (
+                  <div className="hidden md:flex items-center gap-2">
+                    <Link
+                      to="/login"
+                      className="px-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-md shadow-md hover:shadow-lg hover:scale-105 transition-all"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
+                <div className="flex items-center md:hidden">
+                  <button
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    className="p-2 -mr-2 rounded-md text-gray-500 dark:text-gray-400"
+                  >
+                    <MenuIcon size={28} strokeWidth={BOLD_ICON_STROKE} />
+                  </button>
                 </div>
               </div>
-            </nav>
-          </header>
-        </div>
+            </div>
+          </nav>
+        </header>
       </div>
 
-      {/* --- Mobile Menu Overlay --- */}
       <div
         className={`fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
           isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -247,12 +244,12 @@ const Navbar = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <Link
-                      to="/dashboard"
+                      to="/profile"
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="flex flex-col items-center justify-center gap-1 p-3 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                     >
                       <LayoutDashboard strokeWidth={BOLD_ICON_STROKE} />
-                      <span className="text-xs font-medium">Dashboard</span>
+                      <span className="text-xs font-medium">Profile</span>
                     </Link>
                     <Link
                       to="/cart"

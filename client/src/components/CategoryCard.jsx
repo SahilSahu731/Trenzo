@@ -5,12 +5,12 @@ import { ArrowRight } from 'lucide-react';
 const CategoryCard = ({ category }) => {
   return (
     <Link 
-      to={category.linkTo} 
+      to={`/category/${category.name.toLowerCase()}`}
       className="group relative block w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-lg"
     >
       {/* Background Image with Hover Effect */}
       <img 
-        src={category.imageUrl} 
+        src={category.image.secure_url} 
         alt={category.name} 
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
       />
