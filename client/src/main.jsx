@@ -6,8 +6,11 @@ import { persistor, store } from "./store/store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
-  import { ToastContainer } from 'react-toastify';
-
+import { ToastContainer } from "react-toastify";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

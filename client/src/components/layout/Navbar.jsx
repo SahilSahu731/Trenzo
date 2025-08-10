@@ -19,7 +19,7 @@ import ThemeToggle from "../ThemeToggle";
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
-  { name: "New Arrivals", href: "/new-arrivals", icon: Sparkles },
+  { name: "Explore", href: "/explore", icon: Sparkles },
   { name: "Best Sellers", href: "/best-sellers", icon: Star },
   { name: "Store", href: "/store", icon: ShoppingCart },
 ];
@@ -66,8 +66,8 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-50 w-full bg-white/70 dark:bg-gray-950/70 backdrop-blur-xl transition-colors max-w-7xl mx-auto duration-300">
-        <div className="px-4 py-3">
+      <div className="fixed lg:left-80 sm:left-2 top-5 z-50 w-full bg-white/70 rounded-full dark:bg-gray-950/70 backdrop-blur-xl transition-colors max-w-7xl mx-auto duration-300">
+        <div className="p-0 m-0">
           <header className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-full shadow-lg border border-gray-200 dark:border-gray-800">
             <nav className="max-w-6xl mx-auto px-4 sm:px-6">
               <div className="flex items-center justify-between h-16">

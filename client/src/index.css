@@ -31,3 +31,14 @@
 .input-style {
   @apply block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
 }
+
+@layer utilities {
+  /* This CSS will create labels for our table cells on mobile */
+  @media (max-width: 768px) {
+    .responsive-table td:before {
+      content: attr(data-label);
+      font-weight: 600;
+      @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400;
+    }
+  }
+}
