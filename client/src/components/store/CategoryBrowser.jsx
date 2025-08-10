@@ -34,7 +34,7 @@ const CategoryBrowser = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {categories.map(category => (
-          <Link to={category.linkTo} key={category.name} className="group relative aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
+          <Link to={`/category/${category.name.toLowerCase()}`} key={category.name} className="group relative aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
             <img src={category.imageUrl} alt={category.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors"></div>
             <div className="absolute inset-0 flex items-center justify-center">

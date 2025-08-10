@@ -28,6 +28,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, userInfo } = useSelector((state) => state.auth);
 
+  const { cartItems } = useSelector((state) => state.cart);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
@@ -42,10 +44,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        userMenuRef.current &&
-        !userMenuRef.current.contains(event.target)
-      ) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
       }
     };
@@ -78,18 +77,18 @@ const Navbar = () => {
                   E-Shop
                 </Link>
               </div>
-                <div className="hidden md:flex items-center gap-1.5">
-                  {navLinks.map((link) => (
-                    <NavLink
-                      key={link.name}
-                      to={link.href}
-                      className={navLinkClass}
-                    >
-                      <link.icon size={16} strokeWidth={BOLD_ICON_STROKE} />{" "}
-                      {link.name}
-                    </NavLink>
-                  ))}
-                </div>
+              <div className="hidden md:flex items-center gap-1.5">
+                {navLinks.map((link) => (
+                  <NavLink
+                    key={link.name}
+                    to={link.href}
+                    className={navLinkClass}
+                  >
+                    <link.icon size={16} strokeWidth={BOLD_ICON_STROKE} />{" "}
+                    {link.name}
+                  </NavLink>
+                ))}
+              </div>
 
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="hidden sm:flex items-center gap-2">
@@ -98,6 +97,20 @@ const Navbar = () => {
                   </button>
                   <ThemeToggle />
                 </div>
+
+                {isAuthenticated && (
+                  <Link
+                    to="/cart"
+                    className="relative mr-3 p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <ShoppingCart size={20} strokeWidth={BOLD_ICON_STROKE} />
+                    {cartItems.length > 0 && (
+                      <span className="absolute top-0 right-0 block h-5 w-5 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center ring-2 ring-white dark:ring-gray-900">
+                        {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                      </span>
+                    )}
+                  </Link>
+                )}
 
                 {isAuthenticated ? (
                   <div ref={userMenuRef} className="relative">

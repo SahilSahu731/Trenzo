@@ -22,9 +22,30 @@ import Explore from "./pages/Explore";
 import AdminCategoryListPage from "./components/admin/AdminCategoryListPage";
 import Categories from "./pages/Categories";
 import CategoryProductsPage from "./pages/CategoryProductsPage";
+import ProductPage from "./pages/ProductPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const theme = useSelector((state) => state.theme.mode);
+
+  //  const dispatch = useDispatch();
+  // const { isAuthenticated } = useSelector((state) => state.auth);
+
+  // useEffect(() => {
+  //   const fetchUserCart = async () => {
+  //     dispatch(cartRequestStart());
+  //     try {
+  //       const { data } = await axios.get(CART_API_URL, { withCredentials: true });
+  //       dispatch(cartUpdateSuccess(data));
+  //     } catch (err) {
+  //       // We can fail silently here as the cart might be empty
+  //       dispatch(cartRequestFail(null));
+  //     }
+  //   }
+  //   if(isAuthenticated) {
+  //     fetchUserCart();
+  //   }
+  // }, [dispatch, isAuthenticated]);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -55,6 +76,8 @@ function App() {
           <Route path="/explore" element={<Explore/>} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryName" element={<CategoryProductsPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/deals" element={<div>Deals Page</div>} />
           <Route
             path="/store/accessories"

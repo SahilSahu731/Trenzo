@@ -42,9 +42,9 @@ const ProductCard = ({ product, isNew }) => {
         </Link>
         {/* --- Action buttons appear on hover --- */}
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="p-3 bg-white/90 backdrop-blur-sm rounded-full text-gray-900 hover:bg-white shadow-lg transform transition-transform hover:scale-110" title="Quick View">
+        <Link to={`/product/${product._id}`} className="p-3 bg-white/90 backdrop-blur-sm rounded-full text-gray-900 hover:bg-white shadow-lg transform transition-transform hover:scale-110" title="Quick View">
             <Eye size={20} />
-          </button>
+          </Link>
           <button className="p-3 bg-white/90 backdrop-blur-sm rounded-full text-gray-900 hover:bg-white shadow-lg transform transition-transform hover:scale-110" title="Add to Cart">
             <ShoppingCart size={20} />
           </button>
