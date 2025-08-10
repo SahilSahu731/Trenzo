@@ -11,16 +11,18 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; 
+import authReducer from './slices/authSlices'
 
 const persistConfig = {
   key: 'root',
   storage, 
   version: 1,
-  whitelist: ['theme'],
+  whitelist: ['theme', 'auth'],
 };
 
 const rootReducer = combineReducers({
   theme: themeReducer,
+  auth : authReducer
   // user: userReducer, // example
   // cart: cartReducer, // example
 });
