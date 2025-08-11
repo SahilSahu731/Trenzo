@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Helper function to perform calculations
 const calculateTotals = (cartItems) => {
   const itemsPrice = cartItems.reduce((acc, item) => acc + item.product.price * item.qty, 0);
   const shippingPrice = itemsPrice > 1000 ? 0 : 100;
@@ -31,7 +30,6 @@ const cartSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // This single success action will handle data from get, add, and remove calls
     cartUpdateSuccess: (state, action) => {
       state.loading = false;
       state.cartItems = action.payload;
@@ -41,10 +39,13 @@ const cartSlice = createSlice({
       state.taxPrice = taxPrice;
       state.totalPrice = totalPrice;
     },
-    clearCart: (state) => {
-        // This is useful to call after a user logs out
-        return initialState;
-    }
+    clearCartItems: (state) => {
+      state.cartItems = [];
+      state.itemsPrice = 0;
+      state.shippingPrice = 0;
+      state.taxPrice = 0;
+      state.totalPrice = 0;
+    },
   },
 });
 
@@ -52,7 +53,7 @@ export const {
     cartRequestStart, 
     cartRequestFail, 
     cartUpdateSuccess,
-    clearCart
+    clearCartItems
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

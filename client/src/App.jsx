@@ -24,6 +24,10 @@ import Categories from "./pages/Categories";
 import CategoryProductsPage from "./pages/CategoryProductsPage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
+import ShippingPage from "./pages/ShippingPage";
+import PaymentPage from "./pages/PaymentPage";
+import PlaceOrderPage from "./pages/PlaceOrderPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   const theme = useSelector((state) => state.theme.mode);
@@ -73,9 +77,12 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<Home />} />
           <Route path="/store" element={<Store />} />
-          <Route path="/explore" element={<Explore/>} />
+          <Route path="/explore" element={<Explore />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/category/:categoryName" element={<CategoryProductsPage />} />
+          <Route
+            path="/category/:categoryName"
+            element={<CategoryProductsPage />}
+          />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/deals" element={<div>Deals Page</div>} />
@@ -95,6 +102,8 @@ function App() {
               <Route path="settings" element={<SettingsPage />} />
               <Route path="security" element={<SecurityPage />} />
             </Route>
+            <Route path="/checkout" element={<CheckoutPage />} />
+
             {/* You can add other protected routes like /dashboard here */}
             <Route path="/dashboard" element={<div>Dashboard Page</div>} />
           </Route>
